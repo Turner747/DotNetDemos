@@ -16,11 +16,126 @@ namespace UdemyDemos
 
         public static void Main(string[] args)
         {
-            TernaryChallenge();
+            PropertiesDemo();
         }
 
 
         // exercise method below
+
+
+        public static void PropertiesDemo()
+        {
+            Box box = new Box(3, 4, 5);
+            Console.WriteLine("The box length is {0}", box.GetLength());
+            try
+            {
+                box.SetLength(-4);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine("You can set box variables to negatives");
+            }
+            box.DisplayInfo();
+            
+
+            Console.Read();
+        }
+
+        public static void ClassDemos()
+        {
+            Human denis = new Human("Denis","Dick", "blue", 26);
+            denis.IntroduceMyself();
+            denis.lastName = "Rodman";
+            denis.IntroduceMyself();
+            Human atari = new Human("Atari", "Turner", "blue", 1);
+            atari.IntroduceMyself();
+            Human josh = new Human("Joshua", "Turner");
+            josh.IntroduceMyself();
+            Human rhi = new Human();
+            rhi.IntroduceMyself();
+
+            Console.Read();
+        }
+
+
+
+        public static void PeopleCounter()
+        {
+            bool repeat = true;
+            int counter = 0;
+            while (repeat)
+            {
+                Console.WriteLine("People on the Bus: " + counter++);
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Press enter for every person who enters the bus");
+                Console.WriteLine("or enter an integer then press enter to stop");
+                
+                string test = Console.ReadLine();
+                bool isInt = Int32.TryParse(test, out int num);
+
+                if(!isInt)
+                {
+                    Console.Clear();
+                }
+                else
+                {
+                    repeat = false;
+                }
+            }
+        }
+
+        public static void Looping()
+        {
+            for(int i = 0; i < 15; i++)
+            {
+                Console.WriteLine("For: " + (i + 1));
+            }
+
+            int counter = 0;
+
+            do
+            {
+                Console.WriteLine("Do while: " + ++counter);
+            } while (counter < 5);
+
+            counter = 0;
+            bool doNext = false;
+
+            do
+            {
+                Console.WriteLine("Do while 2: " + ++counter);
+                Console.Write("Want to keep going? (1=yes 0=no default=no) >> ");
+                int repeat = Int32.Parse(Console.ReadLine());
+
+                if(repeat == 1) // could just be if equals to one but felt like doing a switch
+                    doNext = true;
+            }while (doNext);
+
+
+            for (int i = 0; i < 15; i++)
+            {
+                Console.WriteLine("For with a break: " + (i + 1));
+                if(i == 3)
+                {
+                    Console.WriteLine("at 4 we stop");
+                    break;
+                }
+            }
+
+            for (int i = 0; i < 15; i++)
+            {
+                
+                if (i == 3)
+                {
+                    Console.WriteLine("we skip 4");
+                    continue;
+                }
+                Console.WriteLine("For with a continue: " + (i + 1));
+            }
+
+
+            Console.Read();
+        }
 
         public static void TernaryChallenge()
         {
@@ -31,7 +146,9 @@ namespace UdemyDemos
 
             if (isInt)
             {
-                string output = temperature <= 15 ? "it is too cold here" : temperature > 28 ? "it is too hot here" : "it is ok";
+                string output = temperature <= 15 ? "it is too cold here" : 
+                                temperature > 28 ? "it is too hot here" : 
+                                /*if between 16 and 28*/ "it is ok";
                 Console.Write(output);
             }
             else
@@ -126,12 +243,10 @@ namespace UdemyDemos
 
         private static void TryCatchDemo()
         {
-            bool repeat = true;
+            bool repeat = false;
 
-            while (repeat)
+            do
             {
-                repeat = false;
-
                 int number;
 
                 Console.Write("Enter a integer and press enter >> ");
@@ -151,7 +266,11 @@ namespace UdemyDemos
                     Console.WriteLine("Value entered is too long, please enter a shorter number");
                     repeat = true;
                 }
-            }
+                finally
+                {
+                    Console.WriteLine("You see me either way");
+                }
+            } while (repeat);
         }
 
         private static void InputStringDemo()
