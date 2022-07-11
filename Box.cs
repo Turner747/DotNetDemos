@@ -10,16 +10,38 @@ namespace UdemyDemos
     {
         // member variables
         private int length;
-        public int height;
-        public int width;
-        public int volume;
+        private int height;
+        //public int width;
+        private int volume;
+
+        public int Width { get; set; }
 
         public Box(int length, int height, int width)
         {
             this.length = length;
             this.height = height;
-            this.width = width;
+            this.Width = width;
             this.CalculateVolume();
+        }
+
+        public int Height
+        {
+            get
+            {
+                return height;
+            }
+            set
+            {
+                if(value < 0)
+                {
+                    height = -value;
+                }
+                else
+                {
+                    height = value;
+                }
+                CalculateVolume();
+            }
         }
 
         public void SetLength(int length)
@@ -35,18 +57,31 @@ namespace UdemyDemos
             return this.length;
         }
 
+        public int Volume
+        {
+            get { return this.volume; }
+        }
 
+        public int FrontSurface
+        {
+            get
+            {
+                return this.length * this.Height;
+            }
+            
+        }
 
         public void DisplayInfo()
         {
+            CalculateVolume();
             Console.WriteLine(
                 "Length is {0} and height is {1} and width is {2} so volume is {3}", 
-                length, height, width, volume); 
+                length, height, Width, volume); 
         }
 
         private void CalculateVolume()
         {
-            this.volume = length * height * width;
+            this.volume = length * height * Width;
         }
 
     }

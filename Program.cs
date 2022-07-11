@@ -16,12 +16,17 @@ namespace UdemyDemos
 
         public static void Main(string[] args)
         {
-            PropertiesDemo();
+            MembersDestructorsDemo();
         }
 
 
         // exercise method below
-
+        public static void MembersDestructorsDemo()
+        {
+            Member member1 = new Member();
+            member1.Introducing(true);
+            Console.ReadKey();
+        }
 
         public static void PropertiesDemo()
         {
@@ -36,7 +41,11 @@ namespace UdemyDemos
                 Console.WriteLine("You can set box variables to negatives");
             }
             box.DisplayInfo();
-            
+            box.Height = -6;
+            box.Width = 9;
+            box.DisplayInfo();
+            Console.WriteLine("The box volume is {0}", box.Volume);
+            Console.WriteLine("The box's front surface area is", box.FrontSurface);
 
             Console.Read();
         }
