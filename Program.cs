@@ -16,7 +16,175 @@ namespace UdemyDemos
 
         public static void Main(string[] args)
         {
-            MembersDestructorsDemo();
+            MultiDimensionalArrays();
+        }
+
+
+        public static void MultiDimensionalArrays()
+        {
+            string[,] matrix;
+
+            int[,,] cube;
+
+            int[,] array2D = new int[,]
+            {
+                {1,2,3}, // row 0
+                {4,5,6}, // row 1
+                {7,8,9}  // row 2
+            };
+
+            //    3D Array - Cube
+            //            ______
+            //         z / top /|   
+            //          /_____/ |   <- right face
+            //          |     | |
+            //        y |front| /
+            //          |_____|/   
+            //             x
+            //
+
+            int[,,] array3D = new int[,,] // z,y,x
+            {
+                {   // z index 0
+                    {1,2,3}, // y index 0
+                    {4,5,6}, // y index 1
+                    {7,8,9}  // y index 2
+                },
+                {   // z index 1
+                    {11,12,13}, // y index 0
+                    {14,15,16}, // y index 1
+                    {17,18,19}  // y index 2
+                },
+                {   // z index 2
+                    {21,22,23}, // y index 0
+                    {24,25,26}, // y index 1
+                    {27,28,29}  // y index 2
+                }
+            };
+            
+            
+            Console.WriteLine("Central value in the 2d array is {0}", array2D[1, 1]);
+
+            Console.WriteLine("The centre value of the right face in the 3d array is {0}", array3D[1, 1, 2]);
+
+            Console.WriteLine("The top right value of the back face in the 3d array is {0}", array3D[2, 0, 2]);
+        }
+        
+        public static void ArrayLoopChallenge()
+        {
+            Console.Write("Enter a value >> ");
+            var input = Console.ReadLine();
+
+            Console.Write("What data type is the value:\n" +
+                                "1. String\n" +
+                                "2. Integer\n" +
+                                "3. Boolean\n" +
+                                "data type >> ");
+
+            int dataType = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("The value you has entered is: {0}", input);
+
+            string validMessage = "It is a valid: ";
+            string invalidMessage = "It is an invalid: ";
+
+            switch (dataType)
+            {
+                case 1:
+                    validMessage += "String";
+                    invalidMessage += "String";
+
+                    if (isAllAlphabetic(input))
+                        Console.WriteLine(validMessage);
+                    else
+                        Console.WriteLine(invalidMessage);
+                    
+                    break;
+                case 2:
+                    validMessage += "Integer";
+                    invalidMessage += "Integer";
+
+                    if (Int32.TryParse(input, out int result))
+                        Console.WriteLine(validMessage);
+                    else
+                        Console.WriteLine(invalidMessage);
+
+                    break;
+                case 3:
+                    validMessage += "Boolean";
+                    invalidMessage += "Boolean";
+                    
+                    if (Boolean.TryParse(input, out bool resultTwo))
+                        Console.WriteLine(validMessage);
+                    else
+                        Console.WriteLine(invalidMessage);
+
+                    break;
+                default:
+                    Console.WriteLine("You have not selected a valid data type");
+                    break;
+            }
+
+        }
+        
+        public static bool isAllAlphabetic(string input)
+        {
+            foreach(char c in input)
+            {
+                if (!char.IsLetter(c))
+                    return false;
+                    
+            }
+
+            return true;
+        }
+            
+
+        public static void FriendArray()
+        {
+            string[] friends = { "Beau", "Ryan", "Dylan", "Richard", "Rhiannon" };
+
+            foreach (string friend in friends)
+            {
+                Console.WriteLine("Hello, {0}", friend);
+            }
+            Console.Read();
+        }
+
+        public static void ArrayDemoOne()
+        {
+            int[] grades = new int[5];
+
+            grades[0] = 20;
+            grades[1] = 15;
+            grades[2] = 12;
+            grades[3] = 9;
+            grades[4] = 7;
+
+            for(int i = 0; i < grades.Length; i++)
+            {
+                Console.WriteLine("grades at index {0} : {1}", i, grades[i]);
+            }
+
+            int[] mathsGrades = { 25, 10, 9, 9, 7 };
+
+            for (int i = 0; i < mathsGrades.Length; i++)
+            {
+                Console.WriteLine("Maths grades at index {0} : {1}", i, mathsGrades[i]);
+            }
+
+            int[] scienceGrades = { 21, 17, 15, 9, 7 };
+
+            int element = 0;
+            
+            foreach (int grade in scienceGrades)
+            {
+                Console.WriteLine("Science grades at {1} : {0}", grade, element);
+
+                element++;
+            }
+
+            Console.Read();
         }
 
 
