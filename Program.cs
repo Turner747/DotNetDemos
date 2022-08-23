@@ -2,9 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Runtime.ExceptionServices;
+
 
 namespace UdemyDemos
 {
+    enum Day { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday };
+    enum Month { January = 1, February, March, April, May, June, July, August, September, October, November, December };
+
     class Program
     {
         // global variables
@@ -16,10 +22,370 @@ namespace UdemyDemos
 
         static string[] users = { "Joshua", "Rhiannon", "Indi" };
 
-
         public static void Main(string[] args)
         {
-            OrderDemo();
+            RandomDemo();
+        }
+        
+
+        public static void RandomDemo()
+        {
+            Console.Write("Ask a question >> ");
+            Console.Read();
+
+            Random yesNoMaybe = new Random();
+            int answer;
+
+            answer = yesNoMaybe.Next(1, 4);
+
+            if (answer == 1)
+            {
+                Console.WriteLine("Yes");
+            }
+            else if (answer == 2)
+            {
+                Console.WriteLine("Maybe");
+            }
+            else
+            {
+                Console.WriteLine("No");
+            }
+
+        }
+
+        public static void MathDemo()
+        {
+            Console.WriteLine("Ceiling: " + Math.Ceiling(17.2));
+            Console.WriteLine("Floor: " + Math.Floor(5.9));
+
+            int num1 = 13;
+            int num2 = 9;
+
+            Console.WriteLine("Lower of num1 {0} and num2 {1} is {2}", num1, num2, Math.Min(num1, num2));
+            Console.WriteLine("Higher of num1 {0} and num2 {1} is {2}", num1, num2, Math.Max(num1, num2));
+            Console.WriteLine("3 to the power 5 is " + Math.Pow(3, 5));
+            Console.WriteLine(Math.PI);
+            Console.WriteLine("Square root of 16 is " + Math.Sqrt(16));
+            Console.WriteLine("Always positive (50 - 76): " + Math.Abs(50 - 76));
+            Console.WriteLine("The cos of 1 is " + Math.Cos(1));
+            
+            
+
+            Console.Read();
+        }
+
+        public static void EnumDemo()
+        {
+            Day fri = Day.Friday;
+            Day sun = Day.Sunday;
+            Day mon = Day.Monday;
+
+            Console.WriteLine((int)fri == 4);
+
+            Month jan = Month.January;
+            Month feb = Month.February;
+            Month test = Month.January;
+            Month nov = Month.November;
+
+            Console.WriteLine(jan == test);
+            Console.WriteLine((int)nov == 11);
+        }
+
+        public static void StructDemo()
+        {
+            Game game1;
+
+            game1.name = "Uncharted";
+            game1.developer = "Naughty Dog";
+            game1.releaseDate = "2007-11-19";
+            game1.rating = 9.9;
+
+            game1.Display();
+        }
+
+        struct Game
+        {
+            public string name;
+            public string developer;
+            public double rating;
+            public string releaseDate;
+
+            public Game(string name, string developer, double rating, string releaseDate)
+            {
+                this.name = name;
+                this.developer = developer;
+                this.rating = rating;
+                this.releaseDate = releaseDate;
+            }
+
+            public void Display()
+            {
+                Console.WriteLine("Game 1 is {0}, developed by {1}, released on {2} and has a rating of {3}",
+                    this.name, this.developer, this.releaseDate, this.rating);
+            }
+        }
+
+        public static void WriteToTextFile()
+        {
+            string[] lines =
+            {
+                "first line",
+                "second line",
+                "third line"
+            };
+
+            File.WriteAllLines(@"D:\development\udemy\DemoApp\textFile2.txt", lines);
+
+            string text = File.ReadAllText(@"D:\development\udemy\DemoApp\textFile2.txt");
+
+            Console.WriteLine(text);
+
+            string[] highScores =
+            {
+                "Josh - 2423465",
+                "Atari - 3455"
+            };
+
+            File.WriteAllLines(@"D:\development\udemy\DemoApp\highScores.txt", highScores);
+
+            string scores = File.ReadAllText(@"D:\development\udemy\DemoApp\highScores.txt");
+
+            Console.WriteLine(scores);
+
+            using (StreamWriter file = new StreamWriter(@"D:\development\udemy\DemoApp\textFile3.txt"))
+            {
+                foreach (string line in lines)
+                {
+                    if (line.Contains("second"))
+                    {
+                        file.WriteLine(line);
+                    }
+                }
+            }
+
+        }
+
+        public static void ReadFromTextFile()
+        {
+            string text = System.IO.File.ReadAllText(@"D:\development\udemy\DemoApp\textFile.txt");
+
+            Console.WriteLine(text);
+
+            string[] lines = System.IO.File.ReadAllLines(@"D:\development\udemy\DemoApp\textFile.txt");
+
+            foreach (string line in lines)
+            {
+                Console.Write(line + ", ");
+            }
+        }
+
+        public static void AbstractDemo()
+        {
+            Shape[] shapes =
+            {
+                new Sphere(4.56),
+                new Cube(6.2)
+            };
+
+            foreach (Shape shape in shapes)
+            {
+                shape.GetInfo();
+
+                Cube iceCube = shape as Cube;
+                if (iceCube == null)
+                {
+                    Console.WriteLine("This shape is not a cube");
+                }
+
+                if (shape is Cube)
+                {
+                    Console.WriteLine("This shape is a cube");
+                }
+            }
+
+            object cube1 = new Cube(7);
+            Cube cube2 = (Cube)cube1;
+
+            Console.WriteLine("{0} has a voluem of {1}", cube2.Name, cube2.Volume());
+        }
+
+        public static void PolymorphicDemo1()
+        {
+            var cars = new List<Car>()
+            {
+                new Audi(200, "blue", "A4"),
+                new BMW(250, "red", "M3")
+            };
+
+            foreach (var car in cars)
+            {
+                car.Repair();
+            }
+
+            Car bmwZ3 = new BMW(300, "black", "Z3");
+            Car audiA3 = new Audi(300, "green", "A3");
+
+            BMW bmwM5 = new BMW(350, "red", "M5");
+
+            Car carB = (Car)bmwM5;
+
+            bmwZ3.ShowDetails();
+            audiA3.ShowDetails();
+            bmwM5.ShowDetails();
+            carB.ShowDetails();
+
+            M3 myM3 = new M3(260, "red", "M3 Super Turbo");
+
+            myM3.ShowDetails();
+
+            bmwZ3.SetCarIDInfo(1234, "Joshua");
+            audiA3.SetCarIDInfo(1235, "Rhiannon");
+
+            bmwZ3.GetCarIDInfo();
+            audiA3.GetCarIDInfo();
+
+            Console.Read();
+        }
+
+        public static void EnumerableDemoTwo()
+        {
+            List<int> numberList = new List<int>() { 8, 6, 2 };
+
+            int[] numberArray = new int[] { 1, 7, 1, 3 };
+
+            Console.WriteLine(" ");
+            CollectionSum(numberList);
+
+            Console.WriteLine(" ");
+            CollectionSum(numberArray);
+
+            Console.Read();
+        }
+
+        static void CollectionSum(IEnumerable<int> anyCollection)
+        {
+            int sum = 0;
+
+            foreach(int num in anyCollection)
+            {
+                sum += num;
+            }
+
+            Console.WriteLine("The sum is {0}", sum);
+        }
+
+        public static void EnumerableDemo()
+        {
+            IEnumerable<int> unknownCollection;
+            unknownCollection = GetCollection(1);
+            Console.WriteLine("Option 1");
+            foreach(int num in unknownCollection)
+            {
+                Console.Write(num + " ");
+            }
+
+            unknownCollection = GetCollection(2);
+            Console.WriteLine("\n\nOption 2");
+            foreach (int num in unknownCollection)
+            {
+                Console.Write(num + " ");
+            }
+
+            unknownCollection = GetCollection(5);
+            Console.WriteLine("\n\nOption >2");
+            foreach (int num in unknownCollection)
+            {
+                Console.Write(num + " ");
+            }
+            Console.Read();
+        }
+
+        static IEnumerable<int> GetCollection(int option)
+        {
+            List<int> numbersList = new List<int>() { 1, 2, 3, 4, 5, };
+
+            Queue<int> numbersQueue = new Queue<int>();
+            numbersQueue.Enqueue(1);
+            numbersQueue.Enqueue(2);
+            numbersQueue.Enqueue(3);
+            numbersQueue.Enqueue(4); 
+            numbersQueue.Enqueue(5);
+            numbersQueue.Enqueue(6);
+            numbersQueue.Enqueue(7);
+            numbersQueue.Enqueue(8);
+            numbersQueue.Enqueue(9);
+            numbersQueue.Enqueue(10);
+
+            if(option == 1)
+            {
+                return numbersList;
+            }
+            else if( option == 2)
+            {
+                return numbersQueue;
+            }
+            else
+            {
+                return new int[] { 11, 12, 13, 14, 15 };
+            }
+
+        }
+
+        public static void InheritanceDemoTwo()
+        {
+            Post post1 = new Post("Thanks for the birthday wishes", "Joshua Turner", true);
+            Console.WriteLine(post1.ToString());
+
+            Console.WriteLine();
+
+            ImagePost imagePost = new ImagePost("Love the New Car",
+                                                "Joshua Turner",
+                                                "https://www.image.com/image.jpg",
+                                                false);
+            Console.WriteLine(imagePost.ToString());
+
+            Console.WriteLine();
+
+            VideoPost videoPost = new VideoPost("Watch the new video",
+                                                "Joshua Turner",
+                                                "https://www.video.com/video.mp4",
+                                                30000);
+            Console.WriteLine(videoPost.ToString());
+
+            videoPost.Play();
+            Console.WriteLine("Press any key to stop the video");
+            Console.ReadKey();
+            videoPost.Stop();
+               
+        }
+
+
+        public static void InheritanceDemo()
+        {
+            Radio myRadio = new Radio(false, "Sony");
+            myRadio.SwitchOn();
+            myRadio.UseDevice();
+
+            Console.WriteLine();
+
+            TV myTV = new TV(false, "Samsung");
+            myTV.SwitchOn();
+            myTV.UseDevice();
+
+            Console.WriteLine();
+
+            ElectricalDevice myConsole = new ElectricalDevice(false, "Nintendo");
+            myConsole.SwitchOn();
+            myConsole.UseDevice();
+
+            Console.WriteLine();
+
+            Dog dog = new Dog("Fido", 2);
+            Console.WriteLine("{0} is {1} years old", dog.Name, dog.Age);
+            dog.MakeSound();
+            dog.Play();
+            dog.Eat();
+            dog.Eat();
         }
 
         public static void OrderDemo()
